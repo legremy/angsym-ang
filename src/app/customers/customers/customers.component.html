@@ -1,0 +1,49 @@
+<h1>Liste de clients</h1>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th></th>
+      <th>Coordonnées</th>
+      <th>Gérant</th>
+      <th>Factures</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customer of customers">
+      <th>{{ customer.id }}</th>
+      <td>
+        {{ customer.firstName }} {{ customer.lastName | uppercase }} <br /><a
+          href="mailto:{{ customer.email }}"
+          >{{ customer.email }}</a
+        >
+      </td>
+      <td>
+        <img
+          class="md-avatar rounded-circle"
+          src="{{ customer.user?.avatar }}"
+          alt=""
+        />
+      </td>
+      <td>
+        <ul class="list-group">
+          <li
+            *ngFor="let invoice of customer.invoices"
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            Envoyé : {{ invoice.sentAt | date: "fullDate" }}<br />
+            {{ invoice.amount | currency: "EUR":"symbol":"1.0-2":"fr" }}
+            <span
+              class="badge"
+              [ngClass]="{
+                'badge-warning': invoice.status === 'SENT',
+                'badge-danger': invoice.status === 'CANCELLED',
+                'badge-success': invoice.status === 'PAID'
+              }"
+              >{{ invoice.status }}</span
+            >
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
