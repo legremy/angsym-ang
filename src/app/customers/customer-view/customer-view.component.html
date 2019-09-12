@@ -1,1 +1,68 @@
-<p>customer-view works!</p>
+<div class="row" *ngIf="customer">
+  <div class="col-3">
+    <div class="alert alert-light">
+      <h2>Détails de {{ customer.firstName }} {{ customer.lastName }}</h2>
+      <hr />
+      <p><strong>Email : </strong>{{ customer.email }}</p>
+      <p>
+        <strong>Factures : </strong>
+        {{ customer.invoices ? customer.invoices.length : 0 }}
+      </p>
+      <table>
+        <tbody>
+          <tr>
+            <td>Total facturé :</td>
+            <td>{{ customer.totalAmount | currency: "EUR":"symbol" }}</td>
+          </tr>
+          <tr>
+            <td>Total payé :</td>
+            <td>{{ customer.paidAmount | currency: "EUR":"symbol" }}</td>
+          </tr>
+          <tr>
+            <td>Restant dû :</td>
+            <td>{{ customer.unpaidAmount | currency: "EUR":"symbol" }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button
+        class="btn btn-primary"
+        routerLink="/customers/{{ customer.id }}/edit"
+      >
+        Modifier
+      </button>
+      <a class="ml-2" routerLink="/customers">revenir à la liste</a>
+    </div>
+  </div>
+  <div class="col-9">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>montant</th>
+          <th>date</th>
+          <th>status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let invoice of customer.invoices">
+          <td>{{ invoice.id }}</td>
+          <td>{{ invoice.amount }}</td>
+          <td>{{ invoice.sentAt | date: "short" }}</td>
+          <td>
+            <span class="badge badge-{{ getStatusClass(invoice.status) }}">{{
+              getStatusLabel(invoice.status)
+            }}</span>
+          </td>
+          <td>
+            <a class="btn btn-primary btn-block btn-sm" routerLink=""
+              >Modifier</a
+            >
+            <a class="btn btn-danger btn-block btn-sm" routerLink>Supprimer</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="alert alert-light"></div>
+  </div>
+</div>

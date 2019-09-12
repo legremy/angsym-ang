@@ -1,4 +1,7 @@
 <h1>Liste de clients</h1>
+<p>
+  <a routerLink="/customers/new" class="btn btn-primary">Ajouter un client</a>
+</p>
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
@@ -6,16 +9,17 @@
       <th>Coordonnées</th>
       <th>Gérant</th>
       <th>Factures</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let customer of customers">
       <th>{{ customer.id }}</th>
       <td>
-        {{ customer.firstName }} {{ customer.lastName | uppercase }} <br /><a
-          href="mailto:{{ customer.email }}"
-          >{{ customer.email }}</a
+        <a routerLink="/customers/{{ customer.id }}"
+          >{{ customer.firstName }} {{ customer.lastName | uppercase }}</a
         >
+        <br /><a href="mailto:{{ customer.email }}">{{ customer.email }}</a>
       </td>
       <td>
         <img
@@ -43,6 +47,13 @@
             >
           </li>
         </ul>
+      </td>
+      <td>
+        <a
+          class="btn btn-primary btn-block"
+          routerLink="/customers/{{ customer.id }}/edit"
+          >Modifier</a
+        ><br /><a class="btn btn-danger btn-block" href="">supprimer</a>
       </td>
     </tr>
   </tbody>

@@ -1,6 +1,7 @@
 import { CustomerService } from "./../customer.service";
 import { Component, OnInit } from "@angular/core";
 import { Customer } from "../customer";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: "app-customers",
@@ -9,11 +10,12 @@ import { Customer } from "../customer";
 })
 export class CustomersComponent implements OnInit {
   customers: Customer[] = [];
-  constructor(private customerService: CustomerService) {}
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.customerService
-      .findAll()
-      .subscribe(customers => (this.customers = customers));
+    this.customers = this.route.snapshot.data.apiCustomers;
+    // this.customerService
+    //   .findAll()
+    //   .subscribe(customers => (this.customers = customers));
   }
 }

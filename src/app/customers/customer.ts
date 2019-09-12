@@ -5,4 +5,7 @@ export interface Customer {
   email: string;
   invoices?: any[];
   user?: any;
+  unpaidAmount?: number;
+  paidAmount?: number;
+  totalAmount?: number;
 }

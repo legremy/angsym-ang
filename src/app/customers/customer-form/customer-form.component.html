@@ -1,1 +1,31 @@
-<p>customer-form works!</p>
+<h1>{{ customer ? "Modifier" : "Créer" }} un client</h1>
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Prénom du client" formControlName="firstName"
+      [class.is-invalid]="hasViolation('firstName')" />
+    <div class="invalid-feedback" *ngIf="hasViolation('firstName')">
+      {{ getViolationMessage("firstName") }}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Nom de famille du client" formControlName="lastName"
+      [class.is-invalid]="hasViolation('lastName')" />
+    <div class="invalid-feedback" *ngIf="hasViolation('lastName')">
+      {{ getViolationMessage("lastName") }}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Adresse email du client" formControlName="email"
+      [class.is-invalid]="hasViolation('email')" />
+    <div class="invalid-feedback" *ngIf="hasViolation('email')">
+      {{ getViolationMessage("email") }}
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Enregistrer</button>
+
+  <div class="alert alert-danger" *ngIf="error">
+    Nous n'avons pas pu sauvegarder votre client, veuillez réessayer plus tard
+  </div>
+</form>
