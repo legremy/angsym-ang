@@ -1,1 +1,13 @@
-<p>register works!</p>
+<h2>Créer un compte</h2>
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+    <div class="form-group"><input formControlName="email" type="email" class="form-control" placeholder="email">
+        <p *ngIf="email.hasError('violation')">{{email.getError("violation")}}</p>
+    </div>
+    <div class="form-group"><input formControlName="password" type="password" class="form-control"
+            placeholder="password">
+        <p *ngIf="password.hasError('violation')">{{password.getError("violation")}}</p>
+    </div>
+    <div class="form-group"><input formControlName="avatar" type="url" class="form-control" placeholder="url avatar">
+    </div>
+    <button type="submit" class="btn btn-success">Inscription</button>
+</form>

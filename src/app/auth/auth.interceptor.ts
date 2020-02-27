@@ -10,13 +10,13 @@ import { Observable } from "rxjs";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!this.authService.isAuthenticated) {
+    if (!this.authService.isAuthenticated()) {
       return next.handle(req);
     }
 
@@ -24,6 +24,28 @@ export class AuthInterceptor implements HttpInterceptor {
     const clonedReq = req.clone({
       headers: req.headers.append("Authorization", "Bearer " + token)
     });
+
+
+    //   intercept(
+    //     req: HttpRequest < any >,
+    //     next: HttpHandler
+    //   ): Observable < HttpEvent < any >> {
+    //     if(!this.service.isAuthenticated()) {
+    //     return next.handle(req);
+    //   }
+
+    //   const token = this.service.getToken();
+
+    //   const cloneReq = req.clone({
+    //     headers: req.headers.append("Authorization", "Bearer " + token)
+    //   });
+    //   // console.log("j'ai été appelé");
+    //   return next.handle(cloneReq);
+    // }
+
+
+
+
 
     return next.handle(clonedReq);
   }

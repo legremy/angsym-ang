@@ -67,7 +67,6 @@ export class CustomerFormComponent implements OnInit {
 
     // si violations du form
     this.error = false;
-    console.log(httpError.error.violations);
 
     for (let violation of httpError.error.violations) {
       const { propertyPath, message } = violation;

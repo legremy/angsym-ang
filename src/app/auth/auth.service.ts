@@ -1,37 +1,45 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Credentials } from "./credentials";
-import { map } from "rxjs/operators";
-import { Subject } from "rxjs";
-import jwtDecode from "jwt-decode";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Credentials } from './credentials';
+import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import jwtDecode from 'jwt-decode';
+import { environment } from '../../environments/environment';
 
 interface AuthResponse {
   token: string;
 }
+
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class AuthService {
   authState = new Subject<boolean>();
   constructor(private http: HttpClient) { }
 
+  // "account:{...}" : juste pour utiliser la syntaxe, on pourrait créer une interface
+  register(account: { email: string, password: string, avatar: string }) {
+    return this.http.post(`${environment.apiUrl}/users`, account);
+  }
+
   public authenticate(credentials: Credentials) {
     return this.http
-      .post("http://localhost:8000/login_check", credentials)
+      .post(`${environment.apiUrl}/login_check`, credentials)
       .pipe(
         map((result: AuthResponse) => {
-          window.localStorage.setItem("token", result.token);
+          window.localStorage.setItem('token', result.token);
           this.authState.next(true);
           return result;
         })
       );
   }
+
   public getToken(): string {
-    return window.localStorage.getItem("token") || null;
+    return window.localStorage.getItem('token') || null;
   }
 
   public removeToken() {
-    window.localStorage.removeItem("token");
+    window.localStorage.removeItem('token');
     this.authState.next(false);
   }
 
@@ -40,7 +48,7 @@ export class AuthService {
   }
 
   getUserData() {
-    if (!this.getToken()) return null;
+    if (!this.getToken()) { return null; }
     return jwtDecode(this.getToken());
   }
 }

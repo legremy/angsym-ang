@@ -1,9 +1,9 @@
-import { AuthService } from "./../auth/auth.service";
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { AuthService } from './../auth/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: "app-navbar",
+  selector: 'app-navbar',
   template: `
     <nav class="mb-4 navbar navbar-expand-lg navbar-dark bg-primary">
       <a class="navbar-brand" routerLink="/">AngSym CRM</a>
@@ -57,26 +57,33 @@ import { Router } from "@angular/router";
   ]
 })
 export class NavbarComponent implements OnInit {
-  userData: any; //mauvaise pratique, crée rune interface:mieux
-  isAuthenticated: boolean = false;
+
+  userData: any; // mauvaise pratique, créer une interface:mieux
+  isAuthenticated = false;
+
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.isAuthenticated = this.authService.isAuthenticated();
+
     if (this.isAuthenticated) {
       this.userData = this.authService.getUserData();
     }
+
     this.authService.authState.subscribe(state => {
       this.isAuthenticated = state;
+
       if (this.isAuthenticated) {
+        console.log("On entre les données utilisateur");
         this.userData = this.authService.getUserData();
       }
+      console.log(this.userData);
 
     });
   }
 
   onLogout() {
     this.authService.removeToken();
-    this.router.navigateByUrl("/login");
+    this.router.navigateByUrl('/login');
   }
 }
